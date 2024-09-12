@@ -6,7 +6,7 @@ import { UtilTestData } from '../test-utilities/UtilTestData';
 import { TestFiles } from '../common/TestFiles';
 import { ClothesSideBar } from '../page-objects/componets/ClothesSidebar';
 
-test.describe.parallel(`Check SideBar Tags`, () => {
+test.describe.parallel(`Check SideBar Tabs @sideBar_check`, () => {
   let homePage: HomePage;
   let header: Header;
   let categoryProductPage: CategoryProductsPage;
@@ -23,13 +23,13 @@ test.describe.parallel(`Check SideBar Tags`, () => {
     await header.mainNavbar.clickOnSubcategories(2);
   });
 
-  test(`Check Out The Sidebar Tag For Men's Shop`, async ({ page }) => {
+  test(`Check Out The Sidebar Tab For Men's Shop`, async ({ page }) => {
     const expectedData = UtilTestData.getAllDataFromFile(TestFiles.SideBarTabForMen);
     const actualData = await categoryProductPage.clothesSidebar.getAllTabs();
     expect(expectedData).toStrictEqual(actualData);
   });
 
-  test(`Check Out The Sidebar Subtag For Men's Clothing`, async ({ page }) => {
+  test(`Check Out The Sidebar Subtab For Men's Clothing`, async ({ page }) => {
     const expectedSubtab = UtilTestData.getAllDataFromFile(TestFiles.ClothingSubtabForMen);
     const actualSubtab = await categoryProductPage.clothesSidebar.getAllActiveSubtab();
     expect(expectedSubtab).toStrictEqual(actualSubtab);
