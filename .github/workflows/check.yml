@@ -1,7 +1,5 @@
 name: Playwright test
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       tag:
@@ -11,6 +9,8 @@ on:
           - sideBar_check
           - topbar_filtering
           - subtab_filtering
+  schedule:
+    - cron: '0 1 * * *'
 
 jobs:
   test:
@@ -18,33 +18,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Start suite
-      run: npx playwright test --config=pw-authentication.config.ts --project=Chromium --grep @${{github.event.inputs.tag}}
-# jobs:
-#   lint:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-#       - name: Install deps
-#         run: npm ci
-#       - name: Lint
-#         run: npm run lint
-
-#   test:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-#       - name: Install deps
-#         run: npm ci
-#       - name: Test
-#         run: npm run test:auth
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Start suite
+        run: npx playwright test --config=pw-authentication.config.ts --project=Chromium --grep @${{github.event.inputs.tag || ''}}
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
