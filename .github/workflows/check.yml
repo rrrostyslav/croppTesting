@@ -4,27 +4,21 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      name:
+      tag:
         type: choice
-        description: Who to greet
+        description: What suite to run
         options:
-          - monalisa
-          - cschleiden
-      message:
-        required: true
-      use-emoji:
-        type: boolean
-        description: Include 🎉🤣 emojis
-      environment:
-        type: environment
+          - sideBar_check
+          - topbar_filtering
+          - subtab_filtering
 
 jobs:
   greet:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send greeting
-        run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
+      - name: Start suite
+        run: npx playwright test --config=pw-authentication.config.ts --project=Chromium --grep @${{github.event.inputs.tag}}
 # jobs:
 #   lint:
 #     runs-on: ubuntu-latest

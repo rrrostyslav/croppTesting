@@ -4,7 +4,7 @@ import { Header } from '../page-objects/componets/Header';
 import { CategoryProductsPage } from '../page-objects/CategoryProductsPage';
 import { ClothesPage } from '../page-objects/ClothesPage';
 
-test.describe.parallel(`Topbar Filtering Men's Categories`, () => {
+test.describe.parallel(`Topbar Filtering Men's Categories @topbar_filtering`, () => {
   let homePage: HomePage;
   let header: Header;
   let categoryProductPage: CategoryProductsPage;
