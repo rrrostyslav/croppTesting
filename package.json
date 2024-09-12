@@ -1,0 +1,22 @@
+{
+  "name": "cropp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test:chrome": "playwright test --config=playwright.config.ts --project=Chromium",
+    "test:chrome:headed": "playwright test --config=playwright.config.ts --project=Chromium --headed",
+    "test:auth": "playwright test --config=pw-authentication.config.ts --project=Chromium --headed"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@playwright/test": "^1.47.0",
+    "prettier": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "eslint": "^9.10.0"
+  }
+}
