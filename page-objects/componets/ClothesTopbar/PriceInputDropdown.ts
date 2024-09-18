@@ -1,6 +1,6 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator } from '@playwright/test';
 
-export class InputPriceDropdown {
+export class PriceInputDropdown {
   readonly page: Page;
   readonly submitButton: Locator;
   readonly priceDropbox: Locator;
@@ -17,7 +17,7 @@ export class InputPriceDropdown {
     await this.page.locator(this.getPriceInput('From')).fill(priceFrom);
     await this.page.locator(this.getPriceInput('To')).fill(priceTo);
     await this.submitButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1000)
   }
 
   private getPriceInput(input: string): string {
