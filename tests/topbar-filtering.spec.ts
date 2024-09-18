@@ -4,7 +4,7 @@ import { Header } from '../page-objects/componets/Header';
 import { CategoryProductsPage } from '../page-objects/CategoryProductsPage';
 import { ClothesPage } from '../page-objects/ClothesPage';
 
-test.describe.parallel(`Topbar Filtering Men's Categories @topbar_filtering`, () => {
+test.describe.parallel.only(`Topbar Filtering Men's Categories @topbar_filtering`, () => {
   let homePage: HomePage;
   let header: Header;
   let categoryProductPage: CategoryProductsPage;
@@ -23,22 +23,30 @@ test.describe.parallel(`Topbar Filtering Men's Categories @topbar_filtering`, ()
 
   test(`Filtering Чоловічі Сорочки By Valid Price`, async ({ page }) => {
     await categoryProductPage.clothesSidebar.clickOnSubtab('Одяг', 'Сорочки');
-    await categoryProductPage.clothesTopbar.fillPriceForm('1000', '1399', '2');
+    await categoryProductPage.clothesTopbar.clickOnDropdown('Ціна');
+    await categoryProductPage.clothesTopbar.inputPriceDropdown.fillPriceForm('1000', '1399');
+    await categoryProductPage.clothesTopbar.assertAmountFilters('Ціна', 2);
+    await categoryProductPage.clothesTopbar.assertAmountFilters('Кольори', 0)
     await categoryProductPage.clickOnClothes(1);
     await clothesPage.assertClothesPrice('1000', '1399');
   });
 
   test('Filtering Чоловічі Сорочки By Invalid Price', async ({ page }) => {
     await categoryProductPage.clothesSidebar.clickOnSubtab('Одяг', 'Сорочки');
-    await categoryProductPage.clothesTopbar.fillPriceForm('100000', '100', '2');
+    await categoryProductPage.clothesTopbar.clickOnDropdown('Ціна');
+    await categoryProductPage.clothesTopbar.inputPriceDropdown.fillPriceForm('100000', '100');
+    await categoryProductPage.clothesTopbar.assertAmountFilters('Ціна', 2);
     await categoryProductPage.assertTitleNoProducts();
   });
 
-  test.only(`Filtering Чоловічі Сорочки By Colors`, async ({ page }) => {
+  test(`Filtering Чоловічі Сорочки By Colors`, async ({ page }) => {
     await categoryProductPage.clothesSidebar.clickOnSubtab('Одяг', 'Сорочки');
-    // await categoryProductPage.clothesTopbar.fillColorsForm('червоний', 'зелений');
     await categoryProductPage.clothesTopbar.clickOnDropdown('Кольори');
-    await categoryProductPage.clothesTopbar.checkboxDropdown.fillForm('червоний', 'зелений');
+    await categoryProductPage.clothesTopbar.checkboxDropdown.fillForm(
+      'червоний',
+      'зелений',
+    );
+    await categoryProductPage.clothesTopbar.assertAmountFilters('Кольори', 2);
     await categoryProductPage.clickOnClothes(2);
     await clothesPage.assertClothesColor('зелений', 'червоний');
   });
